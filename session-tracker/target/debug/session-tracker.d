@@ -1,0 +1,1 @@
+C:\Users\juand\Order\programming\Rust\projects\Minimalist-Rust\session-tracker\target\debug\session-tracker.exe: C:\Users\juand\Order\programming\Rust\projects\Minimalist-Rust\session-tracker\src\main.rs
