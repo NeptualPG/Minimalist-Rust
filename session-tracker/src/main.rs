@@ -1,67 +1,22 @@
-use std::io; 
-use std::sync::mpsc; 
-use std::thread; 
-use std::time::{Duration, Instant};
-use crate::mpsc::Receiver;
+mod models;
+mod modules;
 
-// Import	    Purpose
-// io	        Read keyboard input.
-// mpsc	        Create a channel for communication between threads.
-// Receiver	    The type representing the receiving end of a channel.
-// thread	    Start threads and pause execution.
-// Duration	    Represent a length of time.
-
-fn spam() -> Receiver<String> {
-    let (tx, rx) = mpsc::channel(); // create a channel for communication between threads
-    // || introduces a closure: an anonymous function. Empty || means it takes no
-    thread::spawn(move || loop {
-        let mut input = String::new(); // this is a mutable string that will be used to store the input from the user
-        
-        if io::stdin().read_line(&mut input).is_ok() // this is a check to see if the input was read successfully
-        {
-            let _ =tx.send(input); // this allow use to send the input to the main thread
-        }
-    });
-    rx // This is the second thread that is created to read input from the user and send it to the main thread. The main thread will then receive the input and process it accordingly.
-}
-
-
-// Method	  | Behavior
-// recv()	  : Waits for a message if the channel is empty and connected.
-// try_recv() :	Returns immediately, whether a message is available or not.
-fn take_time_minutes() -> Duration {
-    let stdin_channel = spam(); // this is a function that will create a channel for communication between threads
-    let mut timer = Instant::now();
-    let interval = Duration::from_secs(1); // this is a duration of 5 seconds that will be used to check if the user has entered any input
-    let mut timer_duration = Duration::from_secs(0); 
-
-    loop {
-        if timer.elapsed() >= interval {
-            println!("Enter to stop session...");
-            timer = Instant::now(); 
-            timer_duration = Duration::from_secs(timer_duration.as_secs() + 1);
-
-            println!("{} seconds", timer_duration.as_secs());
-        }
-        match stdin_channel.try_recv(){
-            // ok : is a method that will return the value of the input 
-            // if it is available, or an error if it is not.
-            Ok(input) => {
-                if input.trim().is_empty() {
-                    println!("Empty Enter detected");
-                    return timer_duration;
-                }
-            }
-
-            Err(mpsc::TryRecvError::Empty) => {}
-            Err(mpsc::TryRecvError::Disconnected) => {}
-        }
-    }
-} 
+use std::time::Duration;
+use models::session::Session;
+use modules::time_session;
+// we import the input module to read the input from the user and the time_session module to take the time in minutes.
+use std::io;
 
 
 fn main() {
-    take_time_minutes();
+    let duration = Duration::from_secs(60); // This is the duration of the session, it is a duration of 60 seconds that will be used to check if the user has entered any input.
+    let goal = String::from("Complete the task"); // This is the goal of the session, it is a string that will be used to store the goal of the session.
+    let mut session = Session::new(goal, duration); // This is the session that will be created to store the information of the session.    let time = time_session::take_time_minutes();
+    let time = time_session::take_time_minutes();
 
+    session.complete(time); 
+    println!("Session lasted {} seconds", time.as_secs());
+    println!("Completed in time: {}", session.in_time());
 
+    
 }
