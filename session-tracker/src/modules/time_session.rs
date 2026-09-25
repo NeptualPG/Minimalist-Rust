@@ -44,7 +44,15 @@ pub fn take_time_minutes() -> Duration {
             timer = Instant::now(); 
             timer_duration = Duration::from_secs(timer_duration.as_secs() + 1);
 
-            println!("{} seconds", timer_duration.as_secs());
+            if timer_duration >= Duration::from_secs(60) {
+                if (timer_duration.as_secs() / 60) % 60 == 0 {
+                    println!("{} hours", timer_duration.as_secs()/60 /60);
+                }else{
+                    println!("{} minutes", timer_duration.as_secs()/60);
+                }
+            }else{
+                println!("{} seconds", timer_duration.as_secs());
+            }
         }
         match stdin_channel.try_recv(){
             // ok : is a method that will return the value of the input 
