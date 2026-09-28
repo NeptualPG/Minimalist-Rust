@@ -10,10 +10,10 @@ pub struct Session {
 }
 
 impl Session {
-    pub fn new(goal: String, duration: Duration) -> Self {
+    pub fn new(goal: String, duration: Option<Duration>) -> Self {
         Session {
             goal,
-            duration,
+            duration: duration.unwrap_or(Duration::from_secs(0)),
             actual_duration: Duration::from_secs(0),
             completed: false,
             in_time: false,
@@ -26,6 +26,7 @@ impl Session {
     }
 
     pub fn complete(&mut self, actual_duration: Duration){
+        self.in_time = self.in_time();
         self.completed = true;
         self.actual_duration = actual_duration;
     }

@@ -4,6 +4,7 @@ use std::sync::mpsc;
 use std::thread; 
 use std::time::{Duration, Instant};
 use std::sync::mpsc::Receiver;
+use crate::modules::format_time::format_duration;
 
 // Import	    Purpose
 // io	        Read keyboard input.
@@ -40,20 +41,12 @@ pub fn take_time_minutes() -> Duration {
         // Take the time elapsed since the last time the timer was reset and check if it is greater than or equal to the interval. If it is, print a message to the user and reset the timer.
         // we are counting the time in seconds, so we are using Duration::from_secs(1) to create a duration of 1 second. We are also using Duration::from_secs(0) to create a duration of 0 seconds that will be used to keep track of the total time elapsed.
         if timer.elapsed() >= interval {
+            timer_duration += timer.elapsed(); // this is a method that will return the time elapsed since the last time the timer was reset
             println!("Enter to stop session...");
-            timer = Instant::now(); 
-            timer_duration = Duration::from_secs(timer_duration.as_secs() + 1);
-
-            if timer_duration >= Duration::from_secs(60) {
-                if (timer_duration.as_secs() / 60) % 60 == 0 {
-                    println!("{} hours", timer_duration.as_secs()/60 /60);
-                }else{
-                    println!("{} minutes", timer_duration.as_secs()/60);
-                }
-            }else{
-                println!("{} seconds", timer_duration.as_secs());
-            }
+            println!("Time elapsed: {}", format_duration(timer_duration));
+            timer = Instant::now(); // this is a method that will reset the timer to 0 seconds
         }
+
         match stdin_channel.try_recv(){
             // ok : is a method that will return the value of the input 
             // if it is available, or an error if it is not.
