@@ -4,10 +4,48 @@ use folder::scan;
 use dirs;
 use scanner::serach_main_folders;
 
-fn classify_folders(){
-    // diffrent file types to classify the folders into
-    
-    
+fn classify_folders() {
+    if let Some(folders) = serach_main_folders() {
+        for folder in folders {
+            let files = scan(&folder);
+            for file in files {
+                // classify the file based on its extension and move it to the corresponding folder
+                let extension = file.extension().and_then(|ext| ext.to_str()).unwrap_or("");
+                match extension {
+                    "jpg" | "jpeg" | "png" | "gif" => {
+                        // move to Pictures folder
+                        let pictures_folder = dirs::picture_dir().unwrap();
+                        let new_path = pictures_folder.join(file.file_name().unwrap());
+                        std::fs::rename(&file, &new_path).unwrap();
+                        println!("Moved {} to {}", file.display(), new_path.display());
+                    }
+                    "mp3" | "wav" | "flac" => {
+                        // move to Music folder
+                        let music_folder = dirs::audio_dir().unwrap();
+                        let new_path = music_folder.join(file.file_name().unwrap());
+                        std::fs::rename(&file, &new_path).unwrap();
+                        println!("Moved {} to {}", file.display(), new_path.display());
+                    }
+                    "mp4" | "mkv" | "avi" => {
+                        // move to Videos folder
+                        let videos_folder = dirs::video_dir().unwrap();
+                        let new_path = videos_folder.join(file.file_name().unwrap());
+                        std::fs::rename(&file, &new_path).unwrap();
+                        println!("Moved {} to {}", file.display(), new_path.display());
+                    }
+                    _ => {
+                        // move to Documents folder
+                        let documents_folder = dirs::document_dir().unwrap();
+                        let new_path = documents_folder.join(file.file_name().unwrap());
+                        std::fs::rename(&file, &new_path).unwrap();
+                        println!("Moved {} to {}", file.display(), new_path.display());
+                    }
+                }
+            }
+        }
+    } else {
+        eprintln!("No main folders found in the home directory.");
+    }
 }
 
 

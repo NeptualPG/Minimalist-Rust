@@ -28,3 +28,20 @@ fn serach_main_folders() -> Option<Vec<PathBuf>> {
         Some(found_folders)
     } 
 }
+
+
+// now we review the files one by one in the found folders and classify them into different types of files (documents, images, videos, music, etc.) and move them to the corresponding folder. We will use the scan function from the folder library to scan the folders and get the files. We will then use the file extension to classify the files and move them to the corresponding folder. We will also create a log file to keep track of the files that have been moved and their new location.
+
+fn classify_folders() {
+    if let Some(folders) = serach_main_folders() {
+        for folder in folders {
+            let files = scan(&folder);
+            for file in files {
+                // classify the file based on its extension and move it to the corresponding folder
+                // we will implement this logic later
+            }
+        }
+    } else {
+        eprintln!("No main folders found in the home directory.");
+    }
+}
