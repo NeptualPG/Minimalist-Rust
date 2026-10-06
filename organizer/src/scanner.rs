@@ -3,7 +3,7 @@ use folder::scan;
 //use dir library to get the home directory of the user 
 use dirs;
 
-fn serach_main_folders() -> Option<Vec<PathBuf>> {
+fn search_main_folders() -> Option<Vec<PathBuf>> {
     // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
 
     let home_dir = dirs::home_dir().unwrap();
@@ -16,9 +16,12 @@ fn serach_main_folders() -> Option<Vec<PathBuf>> {
         let folder_path = home_dir.join(folder);
         if folder_path.exists() {
             println!("Found folder: {}", folder_path.display());
+            // thi is to store the found folders in a vector to return them later
             found_folders.push(folder_path);
         } else {
-            eprintln!("Folder not found: {}", folder_path.display());
+            /// we create the folder if it does not exist
+            std::fs::create_dir_all(&folder_path).unwrap();
+            println!("Created folder: {}", folder_path.display());
         }
     }
 
@@ -30,18 +33,4 @@ fn serach_main_folders() -> Option<Vec<PathBuf>> {
 }
 
 
-// now we review the files one by one in the found folders and classify them into different types of files (documents, images, videos, music, etc.) and move them to the corresponding folder. We will use the scan function from the folder library to scan the folders and get the files. We will then use the file extension to classify the files and move them to the corresponding folder. We will also create a log file to keep track of the files that have been moved and their new location.
 
-fn classify_folders() {
-    if let Some(folders) = serach_main_folders() {
-        for folder in folders {
-            let files = scan(&folder);
-            for file in files {
-                // classify the file based on its extension and move it to the corresponding folder
-                // we will implement this logic later
-            }
-        }
-    } else {
-        eprintln!("No main folders found in the home directory.");
-    }
-}
