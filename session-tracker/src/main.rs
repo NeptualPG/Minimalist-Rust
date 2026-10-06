@@ -1,13 +1,10 @@
 mod models;
 mod modules;
 
-use std::time::Duration;
 use models::session::Session;
 use modules::time_session;
 // we import the input module to read the input from the user and the time_session module to take the time in minutes.
-use std::io;
 use modules::inputs::inputs_for_session;
-use modules::inputs::inputs_for_session::input_session;
 
 
 fn main() {
