@@ -1,26 +1,12 @@
-use std::path::{Path, PathBuf};
-use folder::scan;
-//use dir library to get the home directory of the user 
-use dirs;
+// to use organizer\src\app.rs
+mod app;
+use app::MyApp;
 
-fn main() {
-    
-}
-
-fn serach_main_folders(){
-    // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
-
-    let home_dir = dirs::home_dir().unwrap();
-
-    // we are going to find documents, downloads, pictures, music, videos, desktop and public folders in the home directory
-    let main_folders = vec!["Documents", "Downloads", "Pictures", "Music", "Videos", "Desktop", "Public"];
-    
-    for folder in main_folders {
-        let folder_path = home_dir.join(folder);
-        if folder_path.exists() {
-            println!("Found folder: {}", folder_path.display());
-        } else {
-            println!("Folder not found: {}", folder_path.display());
-        }
-    }
+fn main() -> eframe::Result {
+    let options = eframe::NativeOptions::default();
+    eframe::run_native(
+        "My First Desktop App",
+        options,
+        Box::new(|_cc| Ok(Box::<MyApp>::default())),
+    )
 }

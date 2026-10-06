@@ -1,3 +1,8 @@
+use std::path::{Path, PathBuf};
+use folder::scan;
+//use dir library to get the home directory of the user 
+use dirs;
+
 fn serach_main_folders(){
     // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
 
@@ -11,7 +16,7 @@ fn serach_main_folders(){
         if folder_path.exists() {
             println!("Found folder: {}", folder_path.display());
         } else {
-            
+            eprintln!("Folder not found: {}", folder_path.display());
         }
     }
 }
