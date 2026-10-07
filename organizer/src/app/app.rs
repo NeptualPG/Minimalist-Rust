@@ -1,4 +1,5 @@
 use eframe::egui;
+use crate::scanner::search_main_folders;
 
 pub struct MyApp {
     name: String,
@@ -8,8 +9,7 @@ pub struct MyApp {
 impl Default for MyApp {
     fn default() -> Self {
         Self {
-            name: "Arthur".to_owned(),
-            age: 42,
+         
         }
     }
 }
@@ -36,7 +36,7 @@ impl eframe::App for MyApp {
                 self.age += 1;
             }
 
-            ui.label(format!("Hello {}, age {}", self.name, self.age));
+            ui.label(format!(""));
         });
     }
 }

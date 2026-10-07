@@ -3,25 +3,48 @@ use folder::scan;
 //use dir library to get the home directory of the user 
 use dirs;
 
-fn search_main_folders() -> Option<Vec<PathBuf>> {
+pub struct MainFolders {
+    documents: Option<PathBuf>,
+    downloads: Option<PathBuf>,
+    pictures: Option<PathBuf>,
+    music: Option<PathBuf>,
+    videos: Option<PathBuf>,
+    desktop: Option<PathBuf>,
+    public: Option<PathBuf>,
+}
+
+
+pub fn search_main_folders() -> Option<MainFolders> {
     // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
 
     let home_dir = dirs::home_dir().unwrap();
-
+    let mut found_folders: MainFolders = MainFolders {
+        documents: None,
+        downloads: None,
+        pictures: None,
+        music: None,
+        videos: None,
+        desktop: None,
+        public: None,
+    };
     // we are going to find documents, downloads, pictures, music, videos, desktop and public folders in the home directory
     let main_folders = vec!["Documents", "Downloads", "Pictures", "Music", "Videos", "Desktop", "Public"];
-    let mut found_folders = Vec::new();
 
     for folder in main_folders {
         let folder_path = home_dir.join(folder);
         if folder_path.exists() {
-            println!("Found folder: {}", folder_path.display());
-            // thi is to store the found folders in a vector to return them later
-            found_folders.push(folder_path);
+            match folder {
+                "Documents" => found_folders.documents = Some(folder_path),
+                "Downloads" => found_folders.downloads = Some(folder_path),
+                "Pictures" => found_folders.pictures = Some(folder_path),
+                "Music" => found_folders.music = Some(folder_path),
+                "Videos" => found_folders.videos = Some(folder_path),
+                "Desktop" => found_folders.desktop = Some(folder_path),
+                "Public" => found_folders.public = Some(folder_path),
+                _ => (),
+            }
         } else {
-            /// we create the folder if it does not exist
-            std::fs::create_dir_all(&folder_path).unwrap();
-            println!("Created folder: {}", folder_path.display());
+            println!("Folder {} not found in home directory", folder);
         }
     }
 
@@ -31,6 +54,4 @@ fn search_main_folders() -> Option<Vec<PathBuf>> {
         Some(found_folders)
     } 
 }
-
-
 

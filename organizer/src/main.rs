@@ -1,6 +1,8 @@
 // to use organizer\src\app.rs
 mod app;
+mod scanner;
 use app::MyApp;
+
 
 fn main() -> eframe::Result {
     let options = eframe::NativeOptions::default();
