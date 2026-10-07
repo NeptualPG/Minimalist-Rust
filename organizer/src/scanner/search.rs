@@ -14,16 +14,7 @@ pub fn search_main_folders() -> Option<MainFolders> {
     for folder in main_folders {
         let folder_path = home_dir.join(folder);
         if folder_path.exists() {
-            match folder {
-                "Documents" => found_folders.documents = Some(folder_path),
-                "Downloads" => found_folders.downloads = Some(folder_path),
-                "Pictures" => found_folders.pictures = Some(folder_path),
-                "Music" => found_folders.music = Some(folder_path),
-                "Videos" => found_folders.videos = Some(folder_path),
-                "Desktop" => found_folders.desktop = Some(folder_path),
-                "Public" => found_folders.public = Some(folder_path),
-                _ => (),
-            }
+            found_folders.folders.insert(folder.to_string(), vec![folder_path]);
         } else {
             println!("Folder {} not found in home directory", folder);
         }
@@ -33,6 +24,6 @@ pub fn search_main_folders() -> Option<MainFolders> {
         None
     } else {
         Some(found_folders)
-    } 
+    }
 }
 

@@ -1,58 +1,23 @@
-use std::path::{Path, PathBuf};
+use std::{collections::HashMap, path::PathBuf};
+
 pub struct MainFolders {
-    pub documents: Option<PathBuf>,
-    pub downloads: Option<PathBuf>,
-    pub pictures: Option<PathBuf>,
-    pub music: Option<PathBuf>,
-    pub videos: Option<PathBuf>,
-    pub desktop: Option<PathBuf>,
-    pub public: Option<PathBuf>,
+   pub folders: HashMap<String, Vec<PathBuf>>,
 }
 
 impl MainFolders {
     pub fn is_empty(&self) -> bool {
-        self.documents.is_none() &&
-        self.downloads.is_none() &&
-        self.pictures.is_none() &&
-        self.music.is_none() &&
-        self.videos.is_none() &&
-        self.desktop.is_none() &&
-        self.public.is_none()
+        self.folders.is_empty()
     }
     pub fn new() -> Self {
         Self {
-            documents: None,
-            downloads: None,
-            pictures: None,
-            music: None,
-            videos: None,
-            desktop: None,
-            public: None,
+            folders: HashMap::new(),
         }
     }
 
-    pub fn show_optional(&self) -> String {
+    pub fn show(&self) -> String {
         let mut result = String::new();
-        if let Some(documents) = &self.documents {
-            result.push_str(&format!("Documents: {:?}\n", documents));
-        }
-        if let Some(downloads) = &self.downloads {
-            result.push_str(&format!("Downloads: {:?}\n", downloads));
-        }
-        if let Some(pictures) = &self.pictures {
-            result.push_str(&format!("Pictures: {:?}\n", pictures));
-        }
-        if let Some(music) = &self.music {
-            result.push_str(&format!("Music: {:?}\n", music));
-        }
-        if let Some(videos) = &self.videos {
-            result.push_str(&format!("Videos: {:?}\n", videos));
-        }
-        if let Some(desktop) = &self.desktop {
-            result.push_str(&format!("Desktop: {:?}\n", desktop));
-        }
-        if let Some(public) = &self.public {
-            result.push_str(&format!("Public: {:?}\n", public));
+        for (folder_name, paths) in &self.folders {
+            result.push_str(&format!("{}: {:?}\n", folder_name, paths));
         }
         result
     }

@@ -2,8 +2,6 @@ use eframe::egui;
 use crate::scanner::search_main_folders;
 use crate::scanner::MainFolders;
 
-
-
 pub struct MyApp {
     name: String,
     age: u32,
@@ -44,7 +42,7 @@ impl eframe::App for MyApp {
                 self.age += 1;
             }
             
-            ui.label(format!("Main Folders:\n{}", self.main_folders.show_optional()));
+            ui.label(format!("Main Folders:\n{}", self.main_folders.show()));
         });
     }
 }

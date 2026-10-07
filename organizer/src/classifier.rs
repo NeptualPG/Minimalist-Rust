@@ -5,11 +5,14 @@ use dirs;
 use scanner::search_main_folders;
 
 
+
+
 fn classify_by_type() {
     // folder name is going to be equal to the type of the file, for example, 
     // if the file is a pdf, it will be moved to the folder named "pdfs" 
     // and if the file is a mp3, it will be moved to the folder named "music" and so on.
     
+    // Iterate over the main folders and classify the files within them.
     if let Some(folders) = search_main_folders() {
         for folder in folders {
             let files = scan(&folder);
