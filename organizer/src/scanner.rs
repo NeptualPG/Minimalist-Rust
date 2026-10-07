@@ -13,6 +13,18 @@ pub struct MainFolders {
     public: Option<PathBuf>,
 }
 
+impl MainFolders {
+    pub fn is_empty(&self) -> bool {
+        self.documents.is_none() &&
+        self.downloads.is_none() &&
+        self.pictures.is_none() &&
+        self.music.is_none() &&
+        self.videos.is_none() &&
+        self.desktop.is_none() &&
+        self.public.is_none()
+    }
+}
+
 
 pub fn search_main_folders() -> Option<MainFolders> {
     // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
