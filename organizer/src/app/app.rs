@@ -1,9 +1,13 @@
 use eframe::egui;
 use crate::scanner::search_main_folders;
+use crate::scanner::MainFolders;
+
+
 
 pub struct MyApp {
     name: String,
     age: u32,
+    main_folders: MainFolders,
 }
 
 impl Default for MyApp {
@@ -11,9 +15,12 @@ impl Default for MyApp {
         Self {
             name: "Arthur".to_owned(),
             age: 42,
+            main_folders: search_main_folders().unwrap_or(MainFolders::new()),
         }
     }
 }
+
+
 
 impl eframe::App for MyApp {
     // This function is called each time the UI needs repainting, which may be many times per second.
@@ -36,8 +43,8 @@ impl eframe::App for MyApp {
             if ui.button("Click Me").clicked() {
                 self.age += 1;
             }
-
-            ui.label(format!(""));
+            
+            ui.label(format!("Main Folders:\n{}", self.main_folders.show_optional()));
         });
     }
 }
