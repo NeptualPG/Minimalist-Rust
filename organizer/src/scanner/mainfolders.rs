@@ -2,6 +2,7 @@ use std::{collections::HashMap, path::PathBuf};
 
 pub struct MainFolders {
    pub folders: HashMap<String, Vec<PathBuf>>,
+   pub active_folder: Vec<Option<bool>>
 }
 
 impl MainFolders {
@@ -11,6 +12,7 @@ impl MainFolders {
     pub fn new() -> Self {
         Self {
             folders: HashMap::new(),
+            active_folder: vec![],
         }
     }
 
