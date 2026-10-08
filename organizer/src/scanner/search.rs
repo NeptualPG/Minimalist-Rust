@@ -11,6 +11,7 @@ pub fn search_main_folders() -> Option<MainFolders> {
     let home_dir = dirs::home_dir().unwrap();
     let mut found_folders: MainFolders = MainFolders::new();
     // we are going to find documents, downloads, pictures, music, videos, desktop and public folders in the home directory
+
     let main_folders = vec!["Documents", "Downloads", "Pictures", "Music", "Videos", "Desktop", "Public"];
 
     for folder in main_folders {
@@ -56,7 +57,7 @@ fn find_folder(root: &Path, target: &str) -> Option<PathBuf> {
     }
 }
 
-pub fn search_specific_folder(folder_name: &str) -> Option<MainFolders> {
+pub fn search_specific_folder(folder_name: &str) {
     // scan the current user's home directory for a specific folder (Documents, Downloads, Pictures)
     let home_dir = dirs::home_dir().unwrap();
     let mut found_folders: MainFolders = MainFolders::new();
@@ -66,9 +67,6 @@ pub fn search_specific_folder(folder_name: &str) -> Option<MainFolders> {
     } else {
         println!("Folder {} not found in home directory", folder_name);
     }
-    if found_folders.is_empty() {
-        None
-    } else {
-        Some(found_folders)
-    }
+
+
 }

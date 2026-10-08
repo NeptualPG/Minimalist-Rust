@@ -1,0 +1,27 @@
+[
+    {
+        "name": "documents",
+        "path": "Documents",
+        "active_folder": true
+    },
+    {
+        "name": "downloads",
+        "path": "Downloads",
+        "active_folder": false
+    },
+    {
+        "name": "pictures",
+        "path": "Pictures",
+        "active_folder": false
+    },
+    {
+        "name": "music",
+        "path": "Music",
+        "active_folder": false
+    },
+    {
+        "name": "videos",
+        "path": "Videos",
+        "active_folder": false
+    }
+]
