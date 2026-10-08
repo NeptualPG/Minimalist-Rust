@@ -6,6 +6,11 @@ use std::path::{Path, PathBuf};
 
 
 pub fn search_main_folders() -> Option<MainFolders> {
+    /* 
+    This function allow the user to search for the main folders in the current user's home directory.
+    The main folders are: Documents, Downloads, Pictures, Music, Videos, Desktop and Public
+     */
+
     // scan the current user's home directory for the main folders (Documents, Downloads, Pictures)
 
     let home_dir = dirs::home_dir().unwrap();
@@ -33,6 +38,11 @@ pub fn search_main_folders() -> Option<MainFolders> {
 
 
 fn find_folder(root: &Path, target: &str) -> Option<PathBuf> {
+    /* 
+        This function recursevely search for a specific folder into the root directory and return the path 
+        of the folder if found if not found return None.
+    */
+
     let mut result = Vec::new();
 
     if let Ok(entries) = fs::read_dir(root) {
@@ -58,6 +68,8 @@ fn find_folder(root: &Path, target: &str) -> Option<PathBuf> {
 }
 
 pub fn search_specific_folder(folder_name: &str) {
+
+
     // scan the current user's home directory for a specific folder (Documents, Downloads, Pictures)
     let home_dir = dirs::home_dir().unwrap();
     let mut found_folders: MainFolders = MainFolders::new();

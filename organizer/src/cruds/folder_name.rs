@@ -24,4 +24,31 @@ impl FolderName {
         self.folders.insert(folder_name, vec![folder_path]);
         self.active_folder.push(active);
     }
+
+    // DELETE
+    pub fn delete_folder(&mut self, folder_name: &str) {
+        self.folders.remove(folder_name);
+    }
+
+    // LOAD
+    pub fn load_from_file() -> Self {
+        let file_content = fs::read_to_string(FOLDER_NAME_FILE).unwrap_or_else(|_| {
+            // If the file doesn't exist, create a new instance and save it to the file
+            let new_instance = FolderName {
+                folders: HashMap::new(),
+                active_folder: vec![],
+            };
+            new_instance.save_to_file();
+            String::new()
+        });
+
+        if file_content.is_empty() {
+            FolderName {
+                folders: HashMap::new(),
+                active_folder: vec![],
+            }
+        } else {
+            serde_json::from_str(&file_content).expect("Failed to parse JSON")
+        }
+    }
 }
