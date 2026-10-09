@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "6a2b21fb045cc0937f27d870"
+  },
+  "entity_ids": [
+    "6799a0a80a55081a4febce65",
+    "69b1a040f91044297879c10d"
+  ],
+  
+  "normative": "2284",
+  "billing_type": [
+    "event",
+    "multiuser"
+  ],
+  "group_by_invoice": true,
+  "structure_shipping": []
+}

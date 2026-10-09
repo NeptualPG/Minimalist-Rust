@@ -17,11 +17,13 @@ pub fn search_main_folders() -> Option<MainFolders> {
     let mut found_folders: MainFolders = MainFolders::new();
     // we are going to find documents, downloads, pictures, music, videos, desktop and public folders in the home directory
 
+
+
     let main_folders = vec!["Documents", "Downloads", "Pictures", "Music", "Videos", "Desktop", "Public"];
 
     for folder in main_folders {
-        let folder_path = home_dir.join(folder);
-        if folder_path.exists() {
+        let found_folder = find_folder(&home_dir, folder);
+        if let Some(folder_path) = found_folder {
             found_folders.folders.insert(folder.to_string(), vec![folder_path]);
             found_folders.active_folder.push(Some(false));
         } else {

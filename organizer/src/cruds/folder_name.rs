@@ -13,42 +13,61 @@ pub struct FolderName {
 
 const FOLDER_NAME_FILE: &str = "src/data/folder_name.json";
 
-impl FolderName {
-    // Create a new instance of FolderName
-    pub fn create_folder(
-        &mut self,
-        folder_name: String,
-        folder_path: PathBuf,
-        active: Option<bool>
-    ) {
-        self.folders.insert(folder_name, vec![folder_path]);
-        self.active_folder.push(active);
-    }
+// CRUD operations for FolderName struct
+// [
+//     {
+//         "name": "documents",
+//         "active_folder": true
+//     },
+//     {
+//         "name": "downloads",
+//         "active_folder": false
+//     },
+//     {
+//         "name": "pictures",
+//         "active_folder": false
+//     },
+//     {
+//         "name": "music",
+//         "active_folder": false
+//     },
+//     {
+//         "name": "videos",
+//         "active_folder": false
+//     } // FORTAMT AND CONTENT OF THE JSON FILE
+// ]
 
-    // DELETE
-    pub fn delete_folder(&mut self, folder_name: &str) {
-        self.folders.remove(folder_name);
-    }
+pub fn create_folder_name(folder_name: &FolderName) -> Result<(), Box<dyn std
+    ::error::Error>> {
+        let json = serde_json::to_string_pretty(folder_name)?;
+        fs::write(FOLDER_NAME_FILE, json
+    )?;
+        Ok(())
+}
 
-    // LOAD
-    pub fn load_from_file() -> Self {
-        let file_content = fs::read_to_string(FOLDER_NAME_FILE).unwrap_or_else(|_| {
-            // If the file doesn't exist, create a new instance and save it to the file
-            let new_instance = FolderName {
-                folders: HashMap::new(),
-                active_folder: vec![],
-            };
-            new_instance.save_to_file();
-            String::new()
-        });
+pub fn read_folder_name() -> Result<FolderName, Box<dyn std::error::Error>> {
+    let json = fs::read_to_string(FOLDER_NAME_FILE)?;
+    let folder_name: FolderName = serde_json::from_str(&json)?;
+    Ok(folder_name)
+}
 
-        if file_content.is_empty() {
-            FolderName {
-                folders: HashMap::new(),
-                active_folder: vec![],
-            }
-        } else {
-            serde_json::from_str(&file_content).expect("Failed to parse JSON")
-        }
+pub fn update_folder_name(folder_name: &FolderName) -> Result<(), Box<dyn std::error::Error>> {
+    let json = serde_json::to_string_pretty(folder_name)?;
+    fs::write(FOLDER_NAME_FILE, json)?;
+    Ok(())
+}
+
+pub fn is_active_folder(folder_name: &str) -> Result<bool, Box<dyn std::error::Error>> {
+    let folder_name_data = read_folder_name()?;
+    if let Some(active_folder) = folder_name_data.active_folder.iter().find(|&&active| active == Some(true)) {
+        Ok(active_folder == &Some(true))
+    } else {
+        Ok(false)
     }
 }
+
+pub fn delete_folder_name() -> Result<(), Box<dyn std::error::Error>> {
+    fs::remove_file(FOLDER_NAME_FILE)?;
+    Ok(())
+}
+
