@@ -1,8 +1,24 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{
+    collections::HashMap,
+    fs,
+    path::PathBuf,
+};
+
+use serde::{Deserialize, Serialize};
+
+const FOLDER_NAME_FILE: &str = "src/data/folder_name.json";
+
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct FolderInfo {
+    pub paths: Vec<PathBuf>,
+    pub active: bool,
+}
+
 
 pub struct MainFolders {
    pub folders: HashMap<String, Vec<PathBuf>>,
-   pub active_folder: Vec<Option<bool>>
+   pub active_folder: Vec<bool>
 }
 
 impl MainFolders {
