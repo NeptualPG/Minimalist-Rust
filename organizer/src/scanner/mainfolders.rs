@@ -14,7 +14,7 @@ pub struct FolderInfo {
     pub paths: Vec<PathBuf>,
     pub active: bool,
 }
-
+    
 
 pub struct MainFolders {
    pub folders: HashMap<String, Vec<PathBuf>>,
